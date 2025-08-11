@@ -66,7 +66,7 @@ app.get("/listSchools", function (req, resp){
 
       conn.query("select * from schools",function (err, allRecords) {
          if (err) {
-            return res.status(500).send(err.message);
+            return resp.status(500).send(err.message);
         }
 
         // Calculate distance for each school
@@ -77,7 +77,7 @@ app.get("/listSchools", function (req, resp){
                 parseFloat(school.latitude),
                 parseFloat(school.longitude)
             );
-            return { ...school, distance: dist.toFixed(2) };
+            return { school, distance: dist.toFixed(2) };
         });
          schoolsWithDistance.sort((a, b) => a.distance - b.distance);
 
