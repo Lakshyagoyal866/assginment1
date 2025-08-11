@@ -80,21 +80,21 @@
 
         <div class="container">
             <div class="row">
-                <div class="col-md-3 p-3 mb-4 mt-4 " ng-repeat="obj in jsonArray">
+                <div class="col-md-3 p-3 mb-4 mt-4" ng-repeat="obj in jsonArray">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">
-                                <center>{{obj.title}}</center>
+                                <center>{{obj.school.name}}</center>
                             </h5>
                             <div class="mt-4">
-                                <p> ID: {{obj.id}} </p>
-                                <p> Name: {{obj.name}} </p>
-                                <p> Address: {{obj.address}} </p>
-                                <p> Latitude: {{obj.latitude}} </p>
-                                <p> Longitude: {{obj.longitude}} </p>
+                                <p> ID: {{obj.school.id}} </p>
+                                <p> Name: {{obj.school.name}} </p>
+                                <p> Address: {{obj.school.address}} </p>
+                                <p> Latitude: {{obj.school.latitude}} </p>
+                                <p> Longitude: {{obj.school.longitude}} </p>
                                 <p> Distance: {{obj.distance}} km </p>
                                 <a class="btn btn-sm btn-primary w-100"
-                                    href="https://www.google.com/maps?q={{obj.latitude}},{{obj.longitude}}"
+                                    href="https://www.google.com/maps?q={{obj.school.latitude}},{{obj.school.longitude}}"
                                     target="_blank">
                                     View on Map
                                 </a>
