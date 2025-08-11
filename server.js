@@ -2,12 +2,14 @@ var express = require("express");
 var fileuploader = require("express-fileupload");
 var cloudinary = require("cloudinary").v2;
 var mysql2 = require("mysql2");
+const cors = require('cors');
 
 
 var app = express();
 app.use(fileuploader());
 app.use(express.static("public"));
-
+app.use(express.json());
+app.use(cors());
 
 app.use(express.urlencoded(true));
 
