@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <script>
+        var mymodule = angular.module("kuchModule", []);
+
+        mymodule.controller("kuchController", function ($scope, $http) {
+            $scope.jsonArray = [];
+            $scope.txtdistance = null;
+
+            $scope.doFetchAll = function () {
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    let lat = pos.coords.latitude;
+                    let lng = pos.coords.longitude;
+                    let maxDist = $scope.txtdistance;
+
+                    var url = "/listSchools?disKuch=" + maxDist + "&lat=" + lat + "&lng=" + lng;
+
+
+                    $http.get(url).then(allGoodFx, someBadFx);
+                    function allGoodFx(response) {
+                        $scope.jsonArray = response.data;
+                    }
+
+                    function someBadFx(response) {
+                        alert(JSON.stringify(response.data));
+                    }
+
+                });
+            };
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <body ng-app="kuchModule" ng-controller="kuchController">
+        <div class="row bg-primary text-white ">
+            <span class="py-2 offset-md-5 ">
+                <h2>Explore Events </h2>
+            </span>
+        </div>
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-3 mt-4 ">
+                    <label for="floatingInput" class="form-label">Distance from user</label>
+                    <input type="text" class="form-control" id="txtdistance" name="txtdistance" ng-model="txtdistance">
+                </div>
+                <center>
+                    <div class="col-md-4 mt-4">
+                        <button class="btn btn-dark px-5 py-2 mt-4" type="button" ng-click="doFetchAll();"> search
+                            nearby school </button>
+                    </div>
+                </center>
+
+            </div>
+        </div>
+
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 p-3 mb-4 mt-4 " ng-repeat="obj in jsonArray">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <center>{{obj.title}}</center>
+                            </h5>
+                            <div class="mt-4">
+                                <p> ID: {{obj.id}} </p>
+                                <p> Name: {{obj.name}} </p>
+                                <p> Address: {{obj.address}} </p>
+                                <p> Latitude: {{obj.latitude}} </p>
+                                <p> Longitude: {{obj.longitude}} </p>
+                                <p> Distance: {{obj.distance}} km </p>
+                                <a class="btn btn-sm btn-primary w-100"
+                                    href="https://www.google.com/maps?q={{obj.latitude}},{{obj.longitude}}"
+                                    target="_blank">
+                                    View on Map
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>
